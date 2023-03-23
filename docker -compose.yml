@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: some-nginx
+    image: nginx:1.22.0
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/nginx/nginx.conf
+    depends_on:
+      - app
+
+  app:
+    image: rest-server/ru.netology:latest
+    container_name: container_springboot
+    restart: always
+    expose:
+      - 9092:9092
+    command: ./gradlew bootRun
+    hostname: container_springboot_hostname
